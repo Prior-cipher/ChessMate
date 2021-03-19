@@ -31,13 +31,14 @@ namespace ChessMate
             
             for (int i = 0; i < 8; i++)
             {
-                figures.Add( new Figure(false,FigType.peshka,1,i));
+                figures.Add( new Peshka(false,1,i));
             }
 
             for (int i = 0; i < 8; i++)
             {
-                figures.Add(new Figure(true, FigType.peshka, 6, i));
+                figures.Add(new Peshka(true,  6, i));
             }
+            figures.Add(new Ladia(false, 5, 1));
         }
 
         private void GenFig(bool black) 
@@ -46,14 +47,14 @@ namespace ChessMate
             if (black) { i = 7; }
 
             int y = 0;
-            figures.Add(new   Ladia(true,i, y));
-            figures.Add(new Ladia(true,i, 7-y++));
-            figures.Add(new Figure(true, FigType.kon,i, y));
-            figures.Add(new Figure(true, FigType.kon, i,7 - y++));
-            figures.Add(new Figure(true, FigType.slon, i,y));
-            figures.Add(new Figure(true, FigType.slon, i,7 - y++));
-            figures.Add(new Figure(true, FigType.ferz,i, y));
-            figures.Add(new Figure(true, FigType.korol,i ,7 - y++));
+            figures.Add(new   Ladia(black,i, y));
+            figures.Add(new Ladia(black, i, 7-y++));
+            figures.Add(new Kon(black, i, y));
+            figures.Add(new Kon(black, i,7 - y++));
+            figures.Add(new Slon(black, i,y));
+            figures.Add(new Slon(black, i,7 - y++));
+            figures.Add(new Ferz(black, i, y));
+            figures.Add(new Korol(black, i ,7 - y++));
 
         }
     }

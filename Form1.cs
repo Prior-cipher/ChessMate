@@ -12,12 +12,13 @@ namespace ChessMate
 {
     public partial class Form1 : Form
     {
+        Table table;
         public Form1()
         {
             InitializeComponent();
             MarkColoir();
             this.Size =new  Size(700,700);
-            Table table = new Table();
+            table = new Table();
             Otrisovka(table);
         }
 
@@ -40,31 +41,88 @@ namespace ChessMate
                 item.Text = item.Name;
                 item.Visible = true;
                 item.Dock = DockStyle.Fill;
+                item.Click += On_Click;
                
             }
-            for (int i = 1; i < tableLayoutPanel1.RowCount-1; i += 2)
-            {
-                int z = 2;
-                if (i % 2 ==0)
-                { 
-                    z = 1;
-                }
-                for (; z < tableLayoutPanel1.ColumnCount-1; z += 2)
-                {
-                    tableLayoutPanel1.GetControlFromPosition(z, i).BackColor = Color.Black;
-                    tableLayoutPanel1.GetControlFromPosition(z, i).ForeColor = Color.White;
-                }
-                i -= 1;
-                
-            }
+            
 
 
         }
-       private void Otrisovka(Table table) 
+
+        private void On_Click(object sender, EventArgs e)
+        {
+            Otrisovka(table);
+            Label label = sender as Label;
+            var a=tableLayoutPanel1.GetPositionFromControl(label);
+            int x = a.Column-1;
+            int y = a.Row-1;
+            Console.WriteLine(y + " " + x);
+            foreach (Figure item in table.figures.Where(z => (z.x == x) && (z.y == 7-y)))
+            {
+                var c = item;
+                //item.CanMove(ref table.figures);
+                foreach (Point point in item.CanMove(ref table.figures))
+                {
+                    tableLayoutPanel1.GetControlFromPosition(point.x+1,8-point.y).BackColor=Color.Blue;
+                }
+                Console.WriteLine();
+
+                foreach (Point point in item.CanEat(ref table.figures))
+                {
+                    tableLayoutPanel1.GetControlFromPosition(point.x + 1, 8 - point.y).BackColor = Color.Red;
+                }
+                
+            }
+            
+
+
+           
+        }
+
+        private void Otrisovka(Table table) 
         {
             foreach (Figure item in table.figures)
             {
-                tableLayoutPanel1.GetControlFromPosition(item.x + 1, 7-item.y + 1).Text=item.figura.ToString()+"\\n"+item.black;
+                tableLayoutPanel1.GetControlFromPosition(item.x + 1, 7-item.y + 1).Text=item.GetType().Name+"\n"+item.black;
+            }
+
+
+            for (int i = 1; i < tableLayoutPanel1.RowCount - 1; i ++)
+            {
+              
+                for (int z = 1; z < tableLayoutPanel1.ColumnCount - 1; z ++)
+                {
+
+                    if (i % 2 == 0)
+                    {
+                        if (z % 2 == 1)
+                        {
+                            tableLayoutPanel1.GetControlFromPosition(z, i).BackColor = Color.Black;
+                            tableLayoutPanel1.GetControlFromPosition(z, i).ForeColor = Color.White;
+                        }
+                        else 
+                        {
+                            tableLayoutPanel1.GetControlFromPosition(z, i).BackColor = Color.White;
+                            tableLayoutPanel1.GetControlFromPosition(z, i).ForeColor = Color.Black;
+                        }
+                    }
+                    else
+                    {
+                        if (z % 2 == 1)
+                        {
+                            tableLayoutPanel1.GetControlFromPosition(z, i).BackColor = Color.White;
+                            tableLayoutPanel1.GetControlFromPosition(z, i).ForeColor = Color.Black;
+                        }
+                        else
+                        {
+                            tableLayoutPanel1.GetControlFromPosition(z, i).BackColor = Color.Black;
+                            tableLayoutPanel1.GetControlFromPosition(z, i).ForeColor = Color.White;
+                        }
+                    }
+                   
+                }
+                
+
             }
         }
 

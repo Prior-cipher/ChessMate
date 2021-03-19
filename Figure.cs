@@ -6,17 +6,20 @@ using System.Threading.Tasks;
 
 namespace ChessMate
 {
-    public enum FigType { peshka, ladia, kon, slon, ferz, korol }
+    
     abstract public class Figure
     {
         public bool black;
 
 
-        public FigType figura;
+        public bool nomoved;
+
         public int y;
         public int x;
+        public bool blocked=false;
 
-        public abstract List<int> CanMove();
+        public abstract List<Point> CanMove(ref List<Figure> figures);
+        public abstract List<Point> CanEat(ref List<Figure> figures);
        
 
 
