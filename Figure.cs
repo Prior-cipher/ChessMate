@@ -18,8 +18,8 @@ namespace ChessMate
         public int x;
         public bool blocked=false;
 
-        public abstract List<Point> CanMove(ref List<Figure> figures);
-        public abstract List<Point> CanEat(ref List<Figure> figures);
+        public abstract List<Cell> CanMove(ref Cell[,] table);
+        public abstract List<Cell> CanEat(ref Cell[,] table);
        
 
 

@@ -17,12 +17,12 @@ namespace ChessMate
             this.y = y;
             this.x = x;
         }
-        public override List<Point> CanMove(ref List<Figure> figures)
+        public override List<Cell> CanMove(ref Cell[,] table)
         {
 
 
-            return new List<Point>();
+            return new List<Cell>();
         }
-        public override List<Point> CanEat(ref List<Figure> figures) { return new List<Point>(); }
+        public override List<Cell> CanEat(ref Cell[,] table) { return new List<Cell>(); }
     }
 }

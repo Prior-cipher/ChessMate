@@ -17,49 +17,87 @@ namespace ChessMate
             this.x = x;
         }
 
-        public override List<Point> CanMove(ref List<Figure> figures)
+        public override List<Cell> CanMove(ref Cell[,] table)
         {
-            List <Point> ans= new List<Point>();
-            int popravka = -1;
-            if (this.black) 
-            {
-                popravka *= -1;
-            }
-            
-            if(figures.Where(x => (this.y - 1 * popravka == x.y) && (this.x  == x.x )).Count() == 0) 
-            {
-                ans.Add(new Point(this.x,this.y-1 * popravka, false,false));
-                if(figures.Where(x => (this.y - 2 * popravka == x.y) && (this.x == x.x)).Count() == 0 && doublehod==false)
-                {
-                    ans.Add(new Point(this.x, this.y-2 * popravka, false, false));
-                }
-            }
+            List <Cell> ans = new List<Cell>();
 
-            foreach (var item in ans)
-            {
-                Console.WriteLine(item);
-            }
-            return ans;
-        }
-        public override List<Point> CanEat(ref List<Figure> figures)
-        {
-            List<Point> ans = new List<Point>();
-
-            int popravka = -1;
             if (this.black)
             {
-                popravka *= -1;
+                if (this.y + 1 < 8 && table[this.y + 1, this.x].fig == null)
+                {
+                    ans.Add(table[this.y + 1, this.x]);
+                }
+                else { return ans; }
             }
-            List<Figure> ShList = figures.Where(x => (this.y - 1 * popravka == x.y) && (this.x + 1 == x.x || this.x - 1 == x.x) && this.black != x.black).ToList();
-            foreach (Figure item in ShList)
+            else
             {
-                ans.Add(new Point(item.x, item.y, true, true));
+                if (this.y - 1 > -1 && table[this.y - 1, this.x].fig == null)
+                {
+                    ans.Add(table[this.y - 1, this.x]);
+                }
+                else { return ans; }
             }
-            foreach (var item in ans)
+            if (!doublehod && (this.y == 1 || this.y == 6)) 
             {
-                Console.WriteLine(item);
+                if (this.black) 
+                {
+                    if (this.y + 2 < 8 && table[this.y + 2, this.x].fig == null) 
+                    {
+                        ans.Add(table[this.y + 2, this.x]);
+                    }
+
+                    
+                }
+                else 
+                {
+                    if (this.y - 2 >-1 && table[this.y - 2, this.x].fig == null)
+                    {
+                        ans.Add(table[this.y - 2, this.x]);
+                    }
+                   
+                }
             }
-            return ans; 
+            
+
+
+          
+            return ans;
+        }
+        public override List<Cell> CanEat(ref Cell[,] table)
+        {
+            List<Cell> ans = new List<Cell>();
+            if (this.black)
+                {
+                    if (this.y +1 < 8 && this.x+1<8 && table[this.y  +1, this.x+1].fig != null)
+                    {
+                        ans.Add(table[this.y + 1, this.x + 1]);
+                    }
+
+                         if (this.y + 1 < 8 && this.x -1>-1 && table[this.y + 1, this.x - 1].fig != null)
+                        {
+                            ans.Add(table[this.y + 1, this.x - 1]);
+                        }
+            }
+                else
+                {
+                    if (this.y - 11 > -1 && this.x + 1 < 8 && table[this.y - 1, this.x + 1].fig != null)
+                {
+                    ans.Add(table[this.y - 1, this.x + 1]);
+                }
+
+                if (this.y - 1 > -1 && this.x - 1 > -1 && table[this.y - 1, this.x - 1].fig != null)
+                {
+                    ans.Add(table[this.y - 1, this.x - 1]);
+                }
+
+            }
+            
+
+          
+
+
+
+            return ans;
         }
 
     }

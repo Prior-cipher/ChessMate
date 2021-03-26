@@ -16,24 +16,27 @@ namespace ChessMate
             this.x = x;
         }
 
-        public override List<Point> CanMove(ref List<Figure> figures) 
+        public override List<Cell> CanMove(ref Cell[,] table) 
         {
-            List<Point> ans = new List<Point>();
+            List<Cell> ans = new List<Cell>();
             for (int i = this.x+1; i <8 ; i++)
             {
-                if (!figures.Exists(x => x.x ==  i && x.y==this.y))
+                if (table[this.y,i].fig==null)
                 {
-                    ans.Add(new Point(i,this.y,false,false));
+                    ans.Add(table[this.y, i]);
                    
                 }
-                else { break; }
+                else 
+                {
+                    break; 
+                }
             }
 
             for (int i = this.x-1; i > -1; i--)
             {
-                if (!figures.Exists(x => x.x == i && x.y == this.y))
+                if (table[this.y, i].fig == null)
                 {
-                    ans.Add(new Point(i, this.y, false, false));
+                    ans.Add(table[this.y, i]);
 
                 }
                 else { break; }
@@ -41,9 +44,9 @@ namespace ChessMate
 
             for (int i = this.y+1; i < 8; i++)
             {
-                if (!figures.Exists(x => x.x == this.x  && x.y == i))
+                if( table[i, this.x].fig == null)
                 {
-                    ans.Add(new Point(this.x ,i, false, false));
+                    ans.Add(table[i, this.x]);
 
                 }
                 else { break; }
@@ -51,9 +54,9 @@ namespace ChessMate
 
             for (int i = this.y-1; i > -1; i--)
             {
-                if (!figures.Exists(x => x.x == this.x  && x.y == i))
+                if (table[i, this.x].fig == null)
                 {
-                    ans.Add(new Point(this.x ,i, false, false));
+                    ans.Add(table[i, this.x]);
 
                 }
                 else { break; }
@@ -64,61 +67,68 @@ namespace ChessMate
 
             return ans;
         }
-        public override List<Point> CanEat(ref List<Figure> figures) {
-            List<Point> ans = new List<Point>();
+        public override List<Cell> CanEat(ref Cell[,] table) {
+            List<Cell> ans = new List<Cell>();
             for (int i = this.x + 1; i < 8; i++)
             {
-                if (figures.Exists(x => x.x == i && x.y == this.y && this.black != x.black))
+                if (table[this.y, i].fig != null && this.black!= table[this.y, i].fig.black)
                 {
-                    ans.Add(new Point(i, this.y, false, false));
+                    ans.Add(table[this.y, i]);
+                    break;                  
+                }
+                else if (table[this.y, i].fig == null)
+                {
                     break;
                 }
-                else if (figures.Exists(x => x.x == i && x.y == this.y 
-                )) { break; }
                 
             }
 
             for (int i = this.x - 1; i > -1; i--)
             {
-                if (figures.Exists(x => x.x == i && x.y == this.y && this.black != x.black))
+                if (table[this.y, i].fig != null && this.black != table[this.y, i].fig.black)
                 {
-                    ans.Add(new Point(i, this.y, false, false));
+                    ans.Add(table[this.y, i]);
                     break;
                 }
-                else if (figures.Exists(x => x.x == i && x.y == this.y)){ break; }
+                else if (table[this.y, i].fig == null)
+                {
+                    break;
+                }
 
 
             }
 
             for (int i = this.y + 1; i < 8; i++)
             {
-                if (figures.Exists(x => x.x == this.x && x.y == i && this.black != x.black))
+                if (table[i,this.x ].fig != null && this.black != table[i, this.x].fig.black)
                 {
-                    ans.Add(new Point(this.x, i, false, false));
+                    ans.Add(table[i, this.x]);
                     break;
                 }
-                else if (figures.Exists(x => x.x == this.x && x.y == i)) { break; }
+                else if (table[i, this.x].fig == null)
+                {
+                    break;
+                }
 
 
             }
 
             for (int i = this.y - 1; i > -1; i--)
             {
-                if (figures.Exists(x => x.x == this.x && x.y == i && this.black != x.black))
+                if (table[i, this.x].fig != null && this.black != table[i, this.x].fig.black)
                 {
-                    ans.Add(new Point(this.x, i, false, false));
+                    ans.Add(table[i, this.x]);
                     break;
-
                 }
-                if (figures.Exists(x => x.x == this.x && x.y == i)) { break; }
-
-
+                else if (table[i, this.x].fig == null)
+                {
+                    break;
+                }
             }
 
 
 
-
-            return ans;
+                return ans;
         }
 
         

@@ -6,22 +6,23 @@ using System.Threading.Tasks;
 
 namespace ChessMate
 {
-    public class Point
+    public class Cell
     {
         public int x;
         public int y;
-        public bool fig;
+        public Figure fig;
         public bool enemy;
-        public Point(int x,int y,bool fig,bool enemy)
+        public Cell(int y,int x,Figure fig)
         {
+            this.y = y;
             this.x=x;
-            this.y=y;
+            
             this.fig=fig;
-            this.enemy=enemy;
+           
         }
         public override string ToString()
         {
-            return string.Join(" ",this.x,this.y,this.fig,this.enemy);
+            return string.Join(" ",this.x,this.y,this.fig);
         }
     }
 }

@@ -57,22 +57,25 @@ namespace ChessMate
             int x = a.Column-1;
             int y = a.Row-1;
             Console.WriteLine(y + " " + x);
-            foreach (Figure item in table.figures.Where(z => (z.x == x) && (z.y == 7-y)))
+            if (table.field[y, x].fig != null) 
             {
-                var c = item;
+                 var c = table.field[y, x].fig;
                 //item.CanMove(ref table.figures);
-                foreach (Point point in item.CanMove(ref table.figures))
+                foreach (Cell cell in c.CanMove(ref table.field))
                 {
-                    tableLayoutPanel1.GetControlFromPosition(point.x+1,8-point.y).BackColor=Color.Blue;
+                    tableLayoutPanel1.GetControlFromPosition(cell.x + 1, cell.y+1).BackColor = Color.Blue;
                 }
                 Console.WriteLine();
 
-                foreach (Point point in item.CanEat(ref table.figures))
+                foreach (Cell cell in c.CanEat(ref table.field))
                 {
-                    tableLayoutPanel1.GetControlFromPosition(point.x + 1, 8 - point.y).BackColor = Color.Red;
+                    tableLayoutPanel1.GetControlFromPosition(cell.x + 1, cell.y + 1).BackColor = Color.Red;
                 }
-                
             }
+
+                
+                
+            
             
 
 
@@ -81,10 +84,7 @@ namespace ChessMate
 
         private void Otrisovka(Table table) 
         {
-            foreach (Figure item in table.figures)
-            {
-                tableLayoutPanel1.GetControlFromPosition(item.x + 1, 7-item.y + 1).Text=item.GetType().Name+"\n"+item.black;
-            }
+            
 
 
             for (int i = 1; i < tableLayoutPanel1.RowCount - 1; i ++)
@@ -123,6 +123,15 @@ namespace ChessMate
                 }
                 
 
+            }
+
+            foreach (Cell cell in table.field)
+            {
+                if (cell.fig != null) 
+                {
+                    tableLayoutPanel1.GetControlFromPosition(cell.x + 1,  cell.y+1 ).Text = cell.fig.GetType().Name + "\n" + cell.fig.black;
+                }
+                
             }
         }
 
